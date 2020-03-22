@@ -8,9 +8,18 @@ export class Body extends Component {
         super();
         this.state = {
             todoData: todoData,
+            isLoading: true,
         };
         this.handleChange = this.handleChange.bind(this);
     }
+
+    componentDidMount() {
+        setTimeout(() => {
+            this.setState({
+                isLoading: false
+            })
+        }, 1500);
+    };
 
     handleChange(idToMatch) {
         this.setState(prevState => {
@@ -43,6 +52,8 @@ export class Body extends Component {
 
         return (<div className="content">
             <h2 className="heading">These are my to do</h2>
+            {this.state.isLoading ? <h2> Loading </h2> : <h2> ok </h2>}
+
             {todoComponents}
         </div>);
     }
