@@ -9,16 +9,22 @@ export class Body extends Component {
         this.state = {
             todoData: todoData,
             isLoading: true,
+            unreadMessages: [
+                // "Your mum", "Hello"
+            ],
+            character: {},
+            requestLoading: true
         };
         this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.setState({
-                isLoading: false
-            })
-        }, 1500);
+        fetch("https://swapi.co/api/people/1/")
+        .then(response => response.json())
+        .then(data => this.setState({
+            character: data,
+            requestLoading: false,
+        }));
     };
 
     handleChange(idToMatch) {
@@ -30,13 +36,6 @@ export class Body extends Component {
                 }
                 return t;
             });
-
-            // then loop through everything and flip the sign that was completed.
-            // updatedTodos.forEach(element => {
-            //     if (element.id === idToMatch) {
-            //         element.completed = !element.completed;
-            //     }
-            // });
 
             // set the new state to the new todos with the updated state
             return {
@@ -52,7 +51,14 @@ export class Body extends Component {
 
         return (<div className="content">
             <h2 className="heading">These are my to do</h2>
+
+            {this.state.requestLoading ? <p>Loading</p> : <p>{`Name is ${this.state.character.name}`}</p>}
+        
+
             {this.state.isLoading ? <h2> Loading </h2> : <h2> ok </h2>}
+            {this.state.unreadMessages.length > 0
+            ? <h2>You have {this.state.unreadMessages.length} unread messages</h2>
+            : "nothing!!!"}
 
             {todoComponents}
         </div>);
