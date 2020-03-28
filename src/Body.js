@@ -13,12 +13,16 @@ export class Body extends Component {
                 // "Your mum", "Hello"
             ],
             character: {},
-            requestLoading: true
+            requestLoading: false,
+            firstName: "",
         };
         this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
+        this.setState({
+            requestLoading: true
+        });
         fetch("https://swapi.co/api/people/1/")
         .then(response => response.json())
         .then(data => this.setState({
@@ -45,20 +49,34 @@ export class Body extends Component {
         console.log("Changed", idToMatch);
     }
 
+    handleChange(event) {
+        this.setState({
+            firstName: event.target.value
+        });
+        console.log(this.state.firstName);
+    };
+
     render() {
         const todoComponents = this.state.todoData.map(
             todo => <ToDoItem id={todo.id} text={todo.text} completed={todo.completed} onChange={this.handleChange} />);
 
+        const textForName = this.state.requestLoading 
+        ? "Loading"
+        : `Name is ${this.state.character.name}`;
+
         return (<div className="content">
             <h2 className="heading">These are my to do</h2>
 
-            {this.state.requestLoading ? <p>Loading</p> : <p>{`Name is ${this.state.character.name}`}</p>}
+            <p>{textForName}</p>
         
-
             {this.state.isLoading ? <h2> Loading </h2> : <h2> ok </h2>}
             {this.state.unreadMessages.length > 0
             ? <h2>You have {this.state.unreadMessages.length} unread messages</h2>
             : "nothing!!!"}
+
+            <form>
+                <input type="text" placeholder="First Name" onChange={this.handleChange}></input>
+            </form>
 
             {todoComponents}
         </div>);
