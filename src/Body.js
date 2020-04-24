@@ -18,9 +18,12 @@ export class Body extends Component {
             lastName: "",
             isFriendly: false,
             information: "",
+            gender: "",
+            favColor: ""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleInput = this.handleInput.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -66,6 +69,12 @@ export class Body extends Component {
         console.log(`${this.state.firstName} ${this.state.lastName} ${this.state.isFriendly} `);
     };
 
+    handleSubmit(event){
+        console.log(event);
+        
+        console.log('Handling the submission.');
+    };
+
     render() {
         const todoComponents = this.state.todoData.map(
             todo => <ToDoItem id={todo.id} text={todo.text} completed={todo.completed} onChange={this.handleChange} />);
@@ -93,7 +102,7 @@ export class Body extends Component {
 
 
             {/* Form practice */}
-            <form onChange={this.handleInput}>
+            <form onSubmit={this.handleSubmit}>
                 <input 
                 type="text" 
                 value={this.state.firstName} 
@@ -119,14 +128,53 @@ export class Body extends Component {
                 />
 
                 <br/>
+
                 <label>
-                <input 
-                    type="checkbox"
-                    name="isFriendly"
-                    checked={this.state.isFriendly}
-                    onChange={this.handleInput}
-                /> Is friendly?
+                    <input 
+                        type="checkbox"
+                        name="isFriendly"
+                        checked={this.state.isFriendly}
+                        onChange={this.handleInput}
+                    /> Is friendly?
                 </label>
+                <br/>
+
+                <label>
+                    <input 
+                        type="radio"
+                        name="gender"
+                        value="male"
+                        checked={this.state.gender === 'male'}
+                        onChange={this.handleInput}
+                    /> Male
+                </label>
+                <br/>
+
+                <label>
+                    <input 
+                        type="radio"
+                        name="gender"
+                        value="female"
+                        checked={this.state.gender === 'female'}
+                        onChange={this.handleInput}
+                    /> Female
+                </label>
+                <br/>
+
+                <label>Favourite colour</label>
+
+                <select
+                    name="favColor"
+                    onChange={this.handleChange}
+                >
+                    <option value="blue">Blue</option>
+                    <option value="yellow">Yellow</option>
+                    <option value="pink">Pink</option>
+                    <option value="black">Black</option>
+                </select>
+
+                {/* If you put a button in a form then it is taken as a submit button */}
+                <button>Submit</button>
                 
             </form>
 
@@ -138,8 +186,13 @@ export class Body extends Component {
                 <br/>
                 {this.state.information} 
                 <br/>
-                {`${this.state.isFriendly} `}
+                {`You are ${this.state.isFriendly} for friendly`}
+                <br/>
 
+                {`You are this gender: ${this.state.gender} `}
+                <br/>
+
+                {`Yor fav colour: ${this.state.favColor} `}
             </h2>
             
             {/* Displaying the todo Components */}
