@@ -4,6 +4,7 @@ import { ToDoItem } from "./ToDoItem";
 
 
 export class Body extends Component {
+    // eslint-disable-next-line 
     constructor() {
         super();
         this.state = {
